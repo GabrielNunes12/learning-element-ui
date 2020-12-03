@@ -7,6 +7,10 @@
         <script src="https://unpkg.com/vue"></script>
         <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
         <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="shopping-list">
@@ -16,28 +20,43 @@
                 text-align: center;">
                 {{ header.toLocaleUpperCase() }}
             </h1>
-            <ul>
-                <li v-for="item in items" :key="item">
-                    {{item}}
-                </li>
-            </ul>
-            <div>
-                <el-input 
-                    prop="itemToBePushed"
-                    maxlength="50" 
-                    placeholder="Type something" 
-                    v-model="itemToBePushed" 
-                    style="width: 250px;" 
-                    show-word-limit/>
-            </div>
-            <div>
-                <el-row>
-                    <el-button 
-                        @click="addItem" 
-                        size="small"> ADD
-                    </el-button>
-                    <el-button @click="removeItem" size="small">REMOVE</el-button>
-                </el-row>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <el-button v-if="state ==='default'" type="primary" icon="el-icon-edit" circle @click="setStateToEdit"></el-button>
+                        <el-button v-else type="success" icon="el-icon-check" circle @click="setStateBackToNormal"></el-button>
+                    </div>
+                    <div class="col">
+                        <ul>
+                            <li v-for="item in items" :key="item">
+                                {{item}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <el-input 
+                            v-if="state == 'edit'"
+                            prop="itemToBePushed"
+                            maxlength="50" 
+                            placeholder="Type something" 
+                            v-model="itemToBePushed" 
+                            style="width: 250px;" 
+                            show-word-limit/>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4">
+                            <el-button 
+                                @click="addItem" 
+                                size="small"> ADD
+                            </el-button>
+                            <el-button @click="removeItem" size="small">REMOVE</el-button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -45,6 +64,7 @@
             new Vue({
                 el: '#shopping-list',
                 data: {
+                    state: 'default',
                     header: 'Shopping List App',
                     items: [],
                     itemToBePushed: '',
@@ -62,6 +82,12 @@
                     },
                     removeItem(){
                         this.items.pop(this.itemToBePushed)
+                    },
+                    setStateToEdit() {
+                        this.state = 'edit'
+                    },
+                    setStateBackToNormal(){
+                        this.state = 'default'
                     }
                 },
             });
