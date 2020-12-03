@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            Shopping List Page
+        </title>
+        <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    </head>
+    <body>
+        <div id="shopping-list">
+            <h1 class="shoppingList" style="background-color: rgb(140, 237, 159);
+                margin: auto;
+                border: 5px solid rgb(139, 199, 180);
+                text-align: center;">
+                {{ header.toLocaleUpperCase() }}
+            </h1>
+            <ul>
+                <li v-for="item in items" :key="item">
+                    {{item}}
+                </li>
+            </ul>
+            <div>
+                <el-input 
+                    prop="itemToBePushed"
+                    maxlength="50" 
+                    placeholder="Type something" 
+                    v-model="itemToBePushed" 
+                    style="width: 250px;" 
+                    show-word-limit/>
+            </div>
+            <div>
+                <el-row>
+                    <el-button 
+                        @click="addItem" 
+                        size="small"> ADD
+                    </el-button>
+                    <el-button @click="removeItem" size="small">REMOVE</el-button>
+                </el-row>
+            </div>
+        </div>
+        
+        <script>
+            new Vue({
+                el: '#shopping-list',
+                data: {
+                    header: 'Shopping List App',
+                    items: [],
+                    itemToBePushed: '',
+                },
+                rules: {
+                    itemToBePushed: [
+                        { required: true, message: `You must type somethin' ` }
+                    ]
+                },
+                methods: {
+                    addItem(){
+                        if(this.itemToBePushed === '') return
+                        this.items.push(this.itemToBePushed)
+                        this.itemToBePushed = ''
+                    },
+                    removeItem(){
+                        this.items.pop(this.itemToBePushed)
+                    }
+                },
+            });
+        </script>
+    </body>
+</html>
