@@ -49,10 +49,25 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-4">
-                            <el-button 
-                                @click="addItem" 
-                                size="small"> ADD
-                            </el-button>
+                            <span @click="dialogVisible = true">
+                                <el-button 
+                                    @click="addItem" 
+                                    size="small"
+                                    > ADD
+                                </el-button>
+                            </span>
+                            <el-dialog
+                                v-if="items.length == 4"
+                                title="Items Added"
+                                :visible.sync="dialogVisible"
+                                width="30%"
+                                :before-close="addItem">
+                                <span>You added 4 items</span>
+                                <span slot="footer" class="dialog-footer">
+                                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                                    <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+                                </span>
+                            </el-dialog>
                             <el-button @click="removeItem" size="small">REMOVE</el-button>
                         </div>
                     </div>
@@ -68,6 +83,7 @@
                     header: 'Shopping List App',
                     items: [],
                     itemToBePushed: '',
+                    dialogVisible: false
                 },
                 rules: {
                     itemToBePushed: [
@@ -79,6 +95,11 @@
                         if(this.itemToBePushed === '') return
                         this.items.push(this.itemToBePushed)
                         this.itemToBePushed = ''
+                        this.$confirm('Are you sure to close this dialog?')
+                        .then(_ => {
+                            done();
+                        })
+                        .catch(_ => {});
                     },
                     removeItem(){
                         this.items.pop(this.itemToBePushed)
