@@ -92,14 +92,9 @@
                 },
                 methods: {
                     addItem(){
-                        if(this.itemToBePushed === '') return
+                        if(this.itemToBePushed === '') return this.$confirm('Description field is undefined?')
                         this.items.push(this.itemToBePushed)
                         this.itemToBePushed = ''
-                        this.$confirm('Are you sure to close this dialog?')
-                        .then(_ => {
-                            done();
-                        })
-                        .catch(_ => {});
                     },
                     removeItem(){
                         this.items.pop(this.itemToBePushed)
