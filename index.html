@@ -22,11 +22,11 @@
             </h1>
             <div class="container">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12">
                         <el-button v-if="state ==='default'" type="primary" icon="el-icon-edit" circle @click="setStateToEdit"></el-button>
                         <el-button v-else type="success" icon="el-icon-check" circle @click="setStateBackToNormal"></el-button>
                     </div>
-                    <div class="col">
+                    <div class="col-md-6">
                         <ul>
                             <li v-for="item in items" :key="item">
                                 {{item}}
